@@ -1,0 +1,39 @@
+name: Code Formatting Check
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'src/**/*.ts'
+      - 'test/**/*.ts'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'src/**/*.ts'
+      - 'test/**/*.ts'
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Check code formatting
+      run: |
+        npx prettier --check "src/**/*.ts" "test/**/*.ts"
+
+    # Optional: Add a step to show formatting differences if check fails
+    - name: Show formatting differences
+      if: failure()
+      run: |
+        npx prettier --list-different "src/**/*.ts" "test/**/*.ts"
