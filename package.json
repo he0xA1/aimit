@@ -7,25 +7,34 @@
     "clean": "rimraf dist",
     "build": "npm run clean && tsc -p .",
     "start": "node dist/index.js",
+    "run": "tsc -p . && node dist/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
   },
   "keywords": [],
-  "author": "",
+  "author": "he0xA1",
   "license": "MIT",
   "type": "module",
   "devDependencies": {
     "@types/jest": "^30.0.0",
+    "@types/node": "^24.9.1",
     "jest": "^30.2.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
     "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "chalk": "^5.6.2",
+    "commander": "^14.0.2",
     "ollama": "^0.6.0",
+    "ora": "^9.0.0",
+    "prompts": "^2.4.2",
     "zod": "^4.1.12"
   }
 }

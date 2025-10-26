@@ -7,8 +7,8 @@
     "rootDir": "src",
     "strict": true,
     "moduleResolution": "nodenext",
+    "isolatedModules": true,
     "esModuleInterop": true,
-    "skipLibCheck": false,
     "forceConsistentCasingInFileNames": true
   },
 
