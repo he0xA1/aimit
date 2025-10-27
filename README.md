@@ -35,6 +35,7 @@ Before using AIMit, you need to have [Ollama](https://ollama.ai/) installed and 
 ### Install Ollama
 
 **macOS/Linux:**
+
 ```bash
 curl -fsSL https://ollama.ai/install.sh | sh
 ```

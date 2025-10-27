@@ -7,14 +7,14 @@ export default {
   globals: {
     "ts-jest": {
       useESM: true,
-      tsconfig: "<rootDir>/tsconfig.json"
-    }
+      tsconfig: "<rootDir>/tsconfig.json",
+    },
   },
   transform: {
-    "^.+\\.tsx?$": ["ts-jest"]
+    "^.+\\.tsx?$": ["ts-jest"],
   },
   moduleNameMapper: {
     // allow importing .js paths from TS files (common with ESM builds)
-    "^(\\.{1,2}/.*)\\.js$": "$1"
-  }
+    "^(\\.{1,2}/.*)\\.js$": "$1",
+  },
 };

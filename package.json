@@ -10,7 +10,10 @@
     "run": "tsc -p . && node dist/index.js",
     "test": "jest",
     "test:watch": "jest --watch",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix"
   },
   "keywords": [],
   "author": "he0xA1",
