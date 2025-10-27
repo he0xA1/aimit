@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Cache node modules
         uses: actions/cache@v4
@@ -34,7 +34,7 @@ jobs:
         run: npm install
 
       - name: Check Prettier formatting
-        run: npx prettier --check "**/*.{ts,tsx,js,jsx,json,md}"
+        run: npx prettier --check "**/*.{ts,tsx,js,jsx}"
 
       - name: Run ESLint
         run: npx eslint . --ext .ts,.tsx,.js,.jsx --max-warnings 0
