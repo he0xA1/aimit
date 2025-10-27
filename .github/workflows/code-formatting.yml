@@ -2,38 +2,52 @@ name: Code Formatting Check
 
 on:
   push:
-    branches: [ master ]
-    paths:
-      - 'src/**/*.ts'
-      - 'test/**/*.ts'
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
-    paths:
-      - 'src/**/*.ts'
-      - 'test/**/*.ts'
+    branches:
+      - master
 
 jobs:
-  format:
+  format-check:
+    name: Check Code Formatting
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Check code formatting
-      run: |
-        npx prettier --check "src/**/*.ts" "test/**/*.ts"
+      - name: Check Prettier formatting
+        run: npx prettier --check "**/*.{ts,tsx,js,jsx,json,md}"
 
-    # Optional: Add a step to show formatting differences if check fails
-    - name: Show formatting differences
-      if: failure()
-      run: |
-        npx prettier --list-different "src/**/*.ts" "test/**/*.ts"
+      - name: Run ESLint
+        run: npx eslint . --ext .ts,.tsx,.js,.jsx --max-warnings 0
+
+      - name: TypeScript type check
+        run: npx tsc --noEmit
+
+      - name: Summary
+        if: success()
+        run: |
+          echo "✅ All formatting and linting checks passed!"
+          echo "- Prettier formatting: OK"
+          echo "- ESLint rules: OK"
+          echo "- TypeScript types: OK"
+
+      - name: Failure notification
+        if: failure()
+        run: |
+          echo "❌ Code formatting or linting issues detected"
+          echo "Please run the following commands locally:"
+          echo "  npm run format        # Auto-fix formatting"
+          echo "  npm run lint:fix      # Auto-fix linting issues"
+          echo "  npx tsc --noEmit      # Check TypeScript types"
