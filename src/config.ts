@@ -6,7 +6,7 @@ import fs from "fs";
 
 const configOptionsSchema = z.object({
   model: z.string().trim().toLowerCase(),
-  useEmoji: z.boolean().default(false),
+  useEmoji: z.boolean(),
   ollamaPort: z.number().positive().min(1000),
   maxLength: z.number().positive(),
   prompt: z.string(),
@@ -27,16 +27,15 @@ const defaultConfig: Config = {
 function loadConfigFile(path: string): Partial<Config> {
   try {
     const content = fs.readFileSync(path, "utf-8");
-    return JSON.parse(content);
+    return JSON.parse(content) as Config;
   } catch {
     return {};
   }
 }
 
-function getConfigPaths(): { homeConfig: string; localConfig?: string } {
+function getConfigPaths(): { homeConfig: string; localConfig: string } {
   const homeConfig = join(homedir(), ".config", "aimit", "config.json");
-  const localConfig = join(process.cwd(), "aimit.config.json");
-  fs.existsSync(localConfig);
+  const localConfig = join(process.cwd(), ".aimit.json");
   return { homeConfig, localConfig };
 }
 
@@ -44,12 +43,12 @@ function loadConfig(): Config {
   const configPaths = getConfigPaths();
   let mergedConfig = { ...defaultConfig };
 
-  if (existsSync(configPaths.localConfig!)) {
-    const localConfig = loadConfigFile(configPaths.localConfig!);
-    mergedConfig = { ...mergedConfig, ...localConfig };
-  } else if (existsSync(configPaths.homeConfig)) {
+  if (existsSync(configPaths.homeConfig)) {
     const homeConfig = loadConfigFile(configPaths.homeConfig);
     mergedConfig = { ...mergedConfig, ...homeConfig };
+  } else if (existsSync(configPaths.localConfig)) {
+    const localConfig = loadConfigFile(configPaths.localConfig);
+    mergedConfig = { ...mergedConfig, ...localConfig };
   }
 
   try {
@@ -58,7 +57,7 @@ function loadConfig(): Config {
     if (error instanceof z.ZodError) {
       console.error("Configuration Error:", error.message);
     }
-    return defaultConfig;
+    process.exit(1);
   }
 }
 
