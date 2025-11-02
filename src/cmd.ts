@@ -1,5 +1,6 @@
 import { Command } from "commander";
 import { config } from "./config.js";
+import process from "node:process";
 
 export const commands = new Command()
   .name("aimit")
@@ -7,6 +8,8 @@ export const commands = new Command()
     "Generate intelligent Git commit messages automatically using local AI models",
   )
   .version("1.0.0")
+
+  .option("--dir, --directory <dir>", "Git directory", process.cwd())
 
   // Action flags
   .option(
@@ -24,12 +27,9 @@ export const commands = new Command()
 
   // Configuration options
   .option(
-    "-t, --type <type>",
-    "Specify commit type (e.g., feat, fix, docs, refactor)",
-  )
-  .option(
     "-s, --style <style>",
     "Set commit message style (e.g., conventional, semantic)",
+    config.style,
   )
   .option(
     "-l, --max-length <length>",
@@ -45,6 +45,7 @@ export const commands = new Command()
   .option(
     "-p, --prompt",
     "Provide a custom prompt template for message generation",
+    config.prompt,
   )
   .option(
     "--ollama-port <port>",
@@ -52,15 +53,21 @@ export const commands = new Command()
     parseInt,
     config.ollamaPort,
   )
+  .option(
+    "-e, --emoji",
+    "Include relevant emoji in commit message",
+    config.useEmoji,
+  )
 
   // Output options
-  .option("-e, --emoji", "Include relevant emoji in commit message")
   .option(
     "-v, --verbose",
     "Display detailed generation process and debug information",
+    false,
   )
-  .option("-q, --quiet", "Suppress all output except errors")
-  .option("--copy, --clipboard", "Copy generated commit message to clipboard")
-  .option("-o, --output", "Write generated commit message to a file")
+  .option("-q, --quiet", "Suppress all output except errors", false)
+  .option("--clipboard", "Copy generated commit message to clipboard", false)
+  .option("-o, --output <file>", "Write generated commit message to a file")
 
-  .argument("[directory]", "Project directory", process.cwd());
+  // Utility options
+  .option("--generate-config", "Create a global configuration file", false);
