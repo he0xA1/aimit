@@ -4,7 +4,7 @@
   "description": "Generate intelligent Git commit messages automatically using local AI models",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -p . && cp -r resource dist/resource",
+    "build": "tsc -p . && cp -r assets dist/assets",
     "start": "node dist/index.js",
     "run": "tsc -p . && node dist/index.js",
     "format": "prettier --write ."
@@ -15,7 +15,7 @@
   "type": "module",
   "files": [
     "dist",
-    "resource"
+    "assets"
   ],
   "bin": {
     "aimit": "./dist/index.js"
