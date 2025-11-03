@@ -3,6 +3,7 @@ import { commands } from "./cmd.js";
 import { createGlobalConfigFile } from "./config.js";
 import { generateMessage, ollama } from "./service.js";
 import { fatal, handleError, installGlobalHandlers } from "./error.js";
+import { setUpLogger } from "./logger.js";
 
 interface Options {
   directory: string;
@@ -58,6 +59,8 @@ async function main() {
 
   const parsedOptions = commands.parse();
   const options = parsedOptions.opts<Options>();
+
+  setUpLogger({ verbose: options.verbose, quiet: options.quiet });
 
   validateOptions(options);
 
