@@ -1,5 +1,7 @@
+import { execSync } from "node:child_process";
 import { commands } from "./cmd.js";
-import { config, createGlobalConfigFile } from "./config.js";
+import { createGlobalConfigFile } from "./config.js";
+import { generateMessage } from "./service.js";
 
 interface Options {
   directory: string;
@@ -41,13 +43,19 @@ function validateOptions(options: Options) {
   }
 }
 
-function handleCommit() {}
+function handleCommit(commitMessage: string) {
+  execSync(`git commit -m "${commitMessage}"`);
+}
 
-function handleAmend() {}
+function handleAmend(commitMessage: string) {
+  execSync(`git commit --amend -m "${commitMessage}"`);
+}
 
-function handleDryRun() {}
+function handleDryRun(commitMessage: string) {
+  console.log(`commit message: ${commitMessage}`);
+}
 
-function main() {
+async function main() {
   const parsedOptions = commands.parse();
   const options = parsedOptions.opts<Options>();
 
@@ -62,15 +70,19 @@ function main() {
     }
   }
 
-  if (options.commit) {
-    handleCommit();
-  } else if (options.amend) {
-    handleAmend();
-  } else if (options.dryRun) {
-    handleDryRun();
-  } else if (options.generateConfig) {
+  if (options.generateConfig) {
     createGlobalConfigFile();
     console.log("Global configuration file created.");
+    process.exit(0);
+  }
+  
+  let commitMessage = await generateMessage();
+  if (options.commit) {
+    handleCommit(commitMessage);
+  } else if (options.amend) {
+    handleAmend(commitMessage);
+  } else if (options.dryRun) {
+    handleDryRun(commitMessage);
   }
 }
 
