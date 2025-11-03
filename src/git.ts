@@ -10,29 +10,18 @@ function getListsOfStagedFiles(): string[] {
     .filter((file) => file.length > 0);
 }
 
-function extractFullHistoryOfEachFile(): Record<string, string> {
-  const fileContents: Record<string, string> = {};
-  for (const file of getListsOfStagedFiles()) {
-    const content = execSync(`git --no-pager log -p -- ${file}`).toString(); // it's can be most recent changes only
-    fileContents[file] = content;
-  }
-  return fileContents;
-}
-
-function getDiffOfStagedFiles(): Record<string, string> {
-  const stagedChanges: Record<string, string> = {};
+function getDiffOfStagedFiles(): string[] {
+  const stagedChanges: string[] = [];
 
   for (const file of getListsOfStagedFiles()) {
     const gitDiffOutput = execSync(
       `git --no-pager diff --cached ${file} `,
     ).toString();
-    stagedChanges[file] = gitDiffOutput;
+    stagedChanges.push(gitDiffOutput);
   }
   return stagedChanges;
 }
 
 export {
-  getListsOfStagedFiles,
-  extractFullHistoryOfEachFile,
   getDiffOfStagedFiles,
 };
