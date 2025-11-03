@@ -75,7 +75,7 @@ async function main() {
     console.log("Global configuration file created.");
     process.exit(0);
   }
-  
+
   let commitMessage = await generateMessage();
   if (options.commit) {
     handleCommit(commitMessage);

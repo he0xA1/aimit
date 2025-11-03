@@ -14,7 +14,8 @@
   "license": "MIT",
   "type": "module",
   "files": [
-    "dist", "resource"
+    "dist",
+    "resource"
   ],
   "bin": {
     "aimit": "./dist/index.js"
