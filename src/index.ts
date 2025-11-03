@@ -1,7 +1,7 @@
 import { execSync } from "node:child_process";
 import { commands } from "./cmd.js";
 import { createGlobalConfigFile } from "./config.js";
-import { generateMessage } from "./service.js";
+import { generateMessage, ollama } from "./service.js";
 
 interface Options {
   directory: string;
@@ -74,6 +74,13 @@ async function main() {
     createGlobalConfigFile();
     console.log("Global configuration file created.");
     process.exit(0);
+  }
+
+  try {
+    await ollama.ps();
+  } catch (error) {
+    console.error("Ollama is not running.");
+    process.exit(1);
   }
 
   let commitMessage = await generateMessage();

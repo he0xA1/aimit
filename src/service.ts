@@ -5,7 +5,7 @@ import path from "node:path";
 import { getDiffOfStagedFiles } from "./git.js";
 import { fileURLToPath } from "node:url";
 
-const ollama = new Ollama({ host: `localhost:${config.ollamaPort}` });
+export const ollama = new Ollama({ host: `localhost:${config.ollamaPort}` });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
