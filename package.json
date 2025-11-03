@@ -4,7 +4,7 @@
   "description": "Generate intelligent Git commit messages automatically using local AI models",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsc -p . && cp -r resource dist/resource",
     "start": "node dist/index.js",
     "run": "tsc -p . && node dist/index.js",
     "format": "prettier --write ."
@@ -13,8 +13,14 @@
   "author": "he0xA1",
   "license": "MIT",
   "type": "module",
+  "files": [
+    "dist", "resource"
+  ],
+  "bin": {
+    "aimit": "./dist/index.js"
+  },
   "devDependencies": {
-    "@types/node": "^24.9.1",
+    "@types/node": "^24.10.0",
     "jest": "^30.2.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
