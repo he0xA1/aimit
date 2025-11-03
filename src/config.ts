@@ -14,6 +14,25 @@ const configOptionsSchema = z.object({
   style: z.string(),
 });
 
+export interface Options {
+  directory: string;
+  commit?: boolean;
+  amend?: boolean;
+  dryRun?: boolean;
+  type?: string;
+  style?: string;
+  maxLength: number;
+  model: string;
+  prompt?: string;
+  ollamaPort: number;
+  emoji: boolean;
+  verbose: boolean;
+  quiet: boolean;
+  clipboard?: boolean;
+  output?: string;
+  generateConfig?: boolean;
+}
+
 export type Config = z.infer<typeof configOptionsSchema>;
 
 const defaultConfig: Config = {
@@ -73,5 +92,24 @@ export function createGlobalConfigFile() {
     );
   }
 }
+
+export function validateOptions(options: Options) {
+  if (
+    [options.commit, options.amend, options.dryRun].filter(Boolean).length > 1
+  ) {
+    fatal("--commit, --amend, and --dry-run options are mutually exclusive", 1);
+  }
+
+  if (
+    options.generateConfig === true &&
+    (options.commit || options.amend || options.dryRun) === true
+  ) {
+    fatal(
+      "--generate-config option cannot be used with --commit, --amend, or --dry-run",
+      1,
+    );
+  }
+}
+
 
 export const config = loadConfig();

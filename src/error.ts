@@ -8,6 +8,7 @@ export class BaseError extends Error {
     if (Error.captureStackTrace) Error.captureStackTrace(this, BaseError);
   }
 }
+
 export function handleError(err: unknown, opts?: { exit?: boolean }): void {
   const { exit = true } = opts || {};
   let message = "";
