@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 const systemPromptPath = path.join(__dirname, "resource", "system-prompt.md");
 const userPromptPath = path.join(__dirname, "resource", "prompt-template.md");
 
-export async function getFirstModel() {
+async function getFirstModel() {
   return (await ollama.list()).models[0].model;
 }
 
