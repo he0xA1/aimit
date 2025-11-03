@@ -7,9 +7,7 @@
   "author": "he0xA1",
   "license": "MIT",
   "type": "module",
-  "bin": {
-    "aimit": "./dist/index.js"
-  },
+  "bin": "dist/index.js",
   "files": [
     "dist",
     "assets"

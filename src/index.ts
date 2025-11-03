@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { commands } from "./cli.js";
 import { createGlobalConfigFile, Options, validateOptions } from "./config.js";
 import { generateMessage, ollama } from "./service.js";
