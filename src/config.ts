@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { homedir } from "node:os";
 import { existsSync } from "node:fs";
 import fs from "fs";
+import { fatal } from "./error.js";
 
 const configOptionsSchema = z.object({
   model: z.string().trim().toLowerCase(),
@@ -53,11 +54,8 @@ function loadConfig(): Config {
 
   try {
     return configOptionsSchema.parse(mergedConfig);
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      console.error("Configuration Error:", error.message);
-    }
-    process.exit(1);
+  } catch (err) {
+    fatal("Configuration format is not valid");
   }
 }
 

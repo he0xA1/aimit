@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { getDiffOfStagedFiles } from "./git.js";
 import { fileURLToPath } from "node:url";
+import { fatal } from "./error.js";
 
 export const ollama = new Ollama({ host: `localhost:${config.ollamaPort}` });
 
@@ -14,7 +15,11 @@ const systemPromptPath = path.join(__dirname, "assets", "system-prompt.md");
 const userPromptPath = path.join(__dirname, "assets", "prompt-template.md");
 
 async function getFirstModel() {
-  return (await ollama.list()).models[0].model;
+  const modelList = (await ollama.list()).models;
+  if (modelList.length === 0) {
+    fatal("No model installed on ollama", 1);
+  }
+  return modelList[0].model;
 }
 
 export async function generateMessage(): Promise<string> {

@@ -2,6 +2,7 @@ import { execSync } from "node:child_process";
 import { commands } from "./cmd.js";
 import { createGlobalConfigFile } from "./config.js";
 import { generateMessage, ollama } from "./service.js";
+import { fatal, handleError, installGlobalHandlers } from "./error.js";
 
 interface Options {
   directory: string;
@@ -26,20 +27,17 @@ function validateOptions(options: Options) {
   if (
     [options.commit, options.amend, options.dryRun].filter(Boolean).length > 1
   ) {
-    console.error(
-      "Error: --commit, --amend, and --dry-run options are mutually exclusive.",
-    );
-    process.exit(1);
+    fatal("--commit, --amend, and --dry-run options are mutually exclusive", 1);
   }
 
   if (
     options.generateConfig === true &&
     (options.commit || options.amend || options.dryRun) === true
   ) {
-    console.error(
-      "Error: --generate-config option cannot be used with --commit, --amend, or --dry-run.",
+    fatal(
+      "--generate-config option cannot be used with --commit, --amend, or --dry-run",
+      1,
     );
-    process.exit(1);
   }
 }
 
@@ -56,6 +54,8 @@ function handleDryRun(commitMessage: string) {
 }
 
 async function main() {
+  installGlobalHandlers();
+
   const parsedOptions = commands.parse();
   const options = parsedOptions.opts<Options>();
 
@@ -65,32 +65,33 @@ async function main() {
     try {
       process.chdir(options.directory);
     } catch (error) {
-      console.error(`Failed to change directory to ${options.directory}`);
-      process.exit(1);
+      fatal(`Failed to change directory to ${options.directory}`, 1);
     }
   }
 
   if (options.generateConfig) {
     createGlobalConfigFile();
     console.log("Global configuration file created.");
-    process.exit(0);
+    return;
   }
 
   try {
     await ollama.ps();
   } catch (error) {
-    console.error("Ollama is not running.");
-    process.exit(1);
+    fatal("Ollama is not running", 1);
   }
 
   let commitMessage = await generateMessage();
   if (options.commit) {
     handleCommit(commitMessage);
+    return;
   } else if (options.amend) {
     handleAmend(commitMessage);
+    return;
   } else if (options.dryRun) {
     handleDryRun(commitMessage);
+    return;
   }
 }
 
-main();
+main().catch((err) => handleError(err));
