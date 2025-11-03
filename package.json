@@ -3,22 +3,22 @@
   "version": "1.0.0",
   "description": "Generate intelligent Git commit messages automatically using local AI models",
   "main": "index.js",
+  "keywords": [],
+  "author": "he0xA1",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "aimit": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "assets"
+  ],
   "scripts": {
     "build": "tsc -p . && cp -r assets dist/assets",
     "start": "node dist/index.js",
     "run": "tsc -p . && node dist/index.js",
     "format": "prettier --write ."
-  },
-  "keywords": [],
-  "author": "he0xA1",
-  "license": "MIT",
-  "type": "module",
-  "files": [
-    "dist",
-    "assets"
-  ],
-  "bin": {
-    "aimit": "./dist/index.js"
   },
   "devDependencies": {
     "@types/node": "^24.10.0",
