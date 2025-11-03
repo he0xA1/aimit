@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process";
-import { commands } from "./cmd.js";
+import { commands } from "./cli.js";
 import { createGlobalConfigFile } from "./config.js";
 import { generateMessage, ollama } from "./service.js";
 import { fatal, handleError, installGlobalHandlers } from "./error.js";
