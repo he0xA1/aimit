@@ -22,6 +22,4 @@ function getDiffOfStagedFiles(): string[] {
   return stagedChanges;
 }
 
-export {
-  getDiffOfStagedFiles,
-};
+export { getDiffOfStagedFiles };
