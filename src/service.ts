@@ -46,5 +46,5 @@ export async function generateMessage(): Promise<string> {
     stream: false,
   });
 
-  return ollamaResponse.response;
+  return ollamaResponse.response.trim();
 }
