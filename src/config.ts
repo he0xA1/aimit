@@ -111,5 +111,4 @@ export function validateOptions(options: Options) {
   }
 }
 
-
 export const config = loadConfig();

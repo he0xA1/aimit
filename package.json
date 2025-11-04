@@ -3,24 +3,26 @@
   "version": "1.0.0",
   "description": "Generate intelligent Git commit messages automatically using local AI models",
   "main": "index.js",
-  "keywords": [],
+  "keywords": [
+    "cli",
+    "ai"
+  ],
   "author": "he0xA1",
   "license": "MIT",
   "type": "module",
   "bin": "dist/index.js",
   "files": [
     "dist",
-    "assets"
+    "assets",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -p . && cp -r assets dist/assets",
-    "start": "node dist/index.js",
-    "run": "tsc -p . && node dist/index.js",
     "format": "prettier --write ."
   },
   "devDependencies": {
     "@types/node": "^24.10.0",
-    "jest": "^30.2.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "rimraf": "^6.0.1",
@@ -30,10 +32,8 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "chalk": "^5.6.2",
     "commander": "^14.0.2",
     "ollama": "^0.6.0",
-    "ora": "^9.0.0",
     "prompts": "^2.4.2",
     "zod": "^4.1.12"
   }
