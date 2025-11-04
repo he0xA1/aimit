@@ -1,6 +1,5 @@
-Analyze the following git diff and generate a single commit message following the given conventions.
-Output only the commit message itself, nothing else.
+Here is the git diff of staged changes:
 
-Here is the current diff:
-
+```diff
 {{STAGED_FILES_DIFF}}
+```
