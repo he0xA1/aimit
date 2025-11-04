@@ -13,12 +13,11 @@
   "bin": "dist/index.js",
   "files": [
     "dist",
-    "assets",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -p . && cp -r assets dist/assets",
+    "build": "tsc -p .",
     "format": "prettier --write ."
   },
   "devDependencies": {
