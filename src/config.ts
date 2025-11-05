@@ -112,7 +112,8 @@ Generate a professional git commit message that accurately describes the changes
 6. Add body only if changes need explanation beyond the subject
 7. Keep it professional and factual
 
-Please generate an appropriate commit message.
+## Output
+Only output the commit message itself. Do not include any explanations, formatting, markdown, or additional text. Return only the commit message.
 `;
 
 export const defaultUserPrompt = `Here is the git diff of staged changes:
