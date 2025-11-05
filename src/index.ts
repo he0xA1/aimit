@@ -4,8 +4,9 @@ import { commands } from "./cli.js";
 import { createGlobalConfigFile, Options, validateOptions } from "./config.js";
 import { generateMessage, ollama } from "./service.js";
 import { fatal, handleError, installGlobalHandlers } from "./error.js";
-import { setUpLogger } from "./logger.js";
+import { logDebug, setUpLogger } from "./logger.js";
 import { handleAmend, handleCommit, handleDryRun } from "./command.js";
+import { existsSync } from "node:fs";
 
 async function main() {
   installGlobalHandlers();
@@ -15,29 +16,37 @@ async function main() {
 
   setUpLogger({ verbose: options.verbose, quiet: options.quiet });
 
+  logDebug(options);
+
   validateOptions(options);
 
   if (options.directory !== process.cwd()) {
     try {
       process.chdir(options.directory);
-    } catch (error) {
+    } catch {
       fatal(`Failed to change directory to ${options.directory}`, 1);
     }
   }
 
   if (options.generateConfig) {
     createGlobalConfigFile();
-    console.log("Global configuration file created.");
+    console.log("Global configuration file created");
     return;
+  }
+
+  if (!existsSync(".git")) {
+    fatal("No git repository exists", 1);
   }
 
   try {
     await ollama.ps();
-  } catch (error) {
+  } catch {
     fatal("Ollama is not running", 1);
   }
 
   let commitMessage = await generateMessage();
+  logDebug("commit message: " + commitMessage);
+
   if (options.commit) {
     handleCommit(commitMessage);
     return;
