@@ -17,7 +17,7 @@ async function getFirstModel() {
 export async function generateMessage(): Promise<string> {
   const prompt = defaultUserPrompt.replace(
     "{{STAGED_FILES_DIFF}}",
-    (await getDiffOfStagedFiles()).toString()
+    (await getDiffOfStagedFiles()).toString(),
   );
 
   logDebug(prompt);

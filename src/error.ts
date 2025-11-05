@@ -11,7 +11,7 @@ export class BaseError extends Error {
 
 export function handleError(
   err: unknown,
-  opts?: { exit?: boolean }
+  opts?: { exit?: boolean },
 ): never | void {
   const { exit = true } = opts || {};
   let message = "";

@@ -167,7 +167,7 @@ export function createGlobalConfigFile() {
     fs.writeFileSync(
       configFilePath,
       JSON.stringify(defaultConfig, null, 2),
-      "utf-8"
+      "utf-8",
     );
   }
 }
@@ -185,7 +185,7 @@ export function validateOptions(options: Options) {
   ) {
     fatal(
       "--generate-config option cannot be used with --commit, --amend, or --dry-run",
-      1
+      1,
     );
   }
 }

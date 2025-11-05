@@ -5,7 +5,7 @@ import { gitCommandExecuter, isExecException } from "./utils.js";
 async function getListsOfStagedFiles(): Promise<string[]> {
   try {
     const { stdout } = await gitCommandExecuter(
-      "git --no-pager diff --cached --name-only"
+      "git --no-pager diff --cached --name-only",
     );
 
     if (stdout.length === 0) {
@@ -33,7 +33,7 @@ async function getDiffOfStagedFiles(): Promise<string[]> {
 
     try {
       const { stdout } = await gitCommandExecuter(
-        `git --no-pager diff --cached ${file} `
+        `git --no-pager diff --cached ${file} `,
       );
 
       logDebug(stdout);
@@ -43,7 +43,7 @@ async function getDiffOfStagedFiles(): Promise<string[]> {
       if (isExecException(err)) {
         if (
           err.message.includes(
-            "unknown revision or path not in the working tree"
+            "unknown revision or path not in the working tree",
           )
         ) {
           // Deleted files may not show in the commit message
