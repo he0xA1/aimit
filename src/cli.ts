@@ -65,8 +65,6 @@ export const commands = new Command()
     "Display detailed generation process and debug information",
   )
   .option("-q, --quiet", "Suppress all output except errors")
-  .option("--clipboard", "Copy generated commit message to clipboard")
-  .option("-o, --output <file>", "Write generated commit message to a file")
 
   // Utility options
   .option("--generate-config", "Create a global configuration file");
