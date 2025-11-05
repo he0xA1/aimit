@@ -1,11 +1,20 @@
-import { execSync } from "node:child_process";
+import { gitCommandExecuter } from "./utils.js";
+import { handleError } from "./error.js";
 
-export function handleCommit(commitMessage: string) {
-  execSync(`git commit -m "${commitMessage}"`);
+export async function handleCommit(commitMessage: string) {
+  try {
+    await gitCommandExecuter(`git commit -m "${commitMessage}"`);
+  } catch (err) {
+    handleError(err);
+  }
 }
 
-export function handleAmend(commitMessage: string) {
-  execSync(`git commit --amend -m "${commitMessage}"`);
+export async function handleAmend(commitMessage: string) {
+  try {
+    await gitCommandExecuter(`git commit --amend -m "${commitMessage}"`);
+  } catch (err) {
+    handleError(err);
+  }
 }
 
 export function handleDryRun(commitMessage: string) {

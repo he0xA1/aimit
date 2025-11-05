@@ -113,7 +113,7 @@ Generate a professional git commit message that accurately describes the changes
 7. Keep it professional and factual
 
 ## Output
-Only output the commit message itself. Do not include any explanations, formatting, markdown, or additional text. Return only the commit message.
+Only output the commit message itself. Do not include any explanations, formatting, markdown, Backtick (\`), or additional text. Return only the commit message.
 `;
 
 export const defaultUserPrompt = `Here is the git diff of staged changes:
@@ -167,7 +167,7 @@ export function createGlobalConfigFile() {
     fs.writeFileSync(
       configFilePath,
       JSON.stringify(defaultConfig, null, 2),
-      "utf-8",
+      "utf-8"
     );
   }
 }
@@ -185,7 +185,7 @@ export function validateOptions(options: Options) {
   ) {
     fatal(
       "--generate-config option cannot be used with --commit, --amend, or --dry-run",
-      1,
+      1
     );
   }
 }
