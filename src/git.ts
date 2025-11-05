@@ -1,27 +1,56 @@
-import { execSync } from "node:child_process";
-import { fatal } from "./error.js";
+import { BaseError, fatal, handleError } from "./error.js";
+import { logDebug } from "./logger.js";
+import { gitCommandExecuter, isExecException } from "./utils.js";
 
-function getListsOfStagedFiles(): string[] {
-  const gitDiffFiles = execSync("git --no-pager diff --cached --name-only")
-    .toString()
-    .split("\n")
-    .map((file) => file.trim())
-    .filter((file) => file.length > 0);
+async function getListsOfStagedFiles(): Promise<string[]> {
+  try {
+    const { stdout } = await gitCommandExecuter(
+      "git --no-pager diff --cached --name-only"
+    );
 
-  if (gitDiffFiles.length === 0) {
-    fatal("No file in staged changes");
+    if (stdout.length === 0) {
+      throw new BaseError("No file in staged changes");
+    }
+
+    logDebug(stdout);
+
+    return stdout
+      .split("\n")
+      .map((file) => file.trim())
+      .filter((file) => file.length > 0);
+  } catch (err) {
+    if (err instanceof BaseError) {
+      handleError(err.message);
+    }
+    throw err;
   }
-
-  return gitDiffFiles;
 }
 
-function getDiffOfStagedFiles(): string[] {
+async function getDiffOfStagedFiles(): Promise<string[]> {
   const stagedChanges: string[] = [];
-  for (const file of getListsOfStagedFiles()) {
-    const gitDiffOutput = execSync(
-      `git --no-pager diff --cached ${file} `,
-    ).toString();
-    stagedChanges.push(gitDiffOutput);
+  for (const file of await getListsOfStagedFiles()) {
+    logDebug(file);
+
+    try {
+      const { stdout } = await gitCommandExecuter(
+        `git --no-pager diff --cached ${file} `
+      );
+
+      logDebug(stdout);
+
+      stagedChanges.push(stdout);
+    } catch (err) {
+      if (isExecException(err)) {
+        if (
+          err.message.includes(
+            "unknown revision or path not in the working tree"
+          )
+        ) {
+          // Deleted files may not show in the commit message
+          continue;
+        }
+      }
+    }
   }
   return stagedChanges;
 }
