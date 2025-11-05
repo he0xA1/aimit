@@ -4,7 +4,6 @@ import { homedir } from "node:os";
 import { existsSync } from "node:fs";
 import fs from "fs";
 import { fatal } from "./error.js";
-import { commands } from "./cli.js";
 
 const configOptionsSchema = z.object({
   model: z.string().trim().toLowerCase(),
@@ -167,7 +166,7 @@ export function createGlobalConfigFile() {
     fs.writeFileSync(
       configFilePath,
       JSON.stringify(defaultConfig, null, 2),
-      "utf-8",
+      "utf-8"
     );
   }
 }
@@ -185,7 +184,7 @@ export function validateOptions(options: Options) {
   ) {
     fatal(
       "--generate-config option cannot be used with --commit, --amend, or --dry-run",
-      1,
+      1
     );
   }
 }
