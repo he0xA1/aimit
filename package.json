@@ -11,11 +11,21 @@
   "license": "MIT",
   "type": "module",
   "bin": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/he0xA1/aimit"
+  },
+  "bugs": {
+    "url": "https://github.com/he0xA1/aimit/issues"
+  },
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "tsc -p .",
     "format": "prettier --write ."

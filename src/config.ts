@@ -73,7 +73,7 @@ Generate a professional git commit message that accurately describes the changes
 - Start with a type: \`feat\`, \`fix\`, \`docs\`, \`style\`, \`refactor\`, \`perf\`, \`test\`, \`chore\`, \`build\`, \`ci\`
 - Optional scope in parentheses: the module/component affected
 - Use imperative mood ("add" not "added" or "adds")
-- Keep under 50 characters
+- Keep under 80 characters
 - No period at the end
 - Capitalize first letter after colon
 
