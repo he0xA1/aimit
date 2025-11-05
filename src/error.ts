@@ -9,13 +9,16 @@ export class BaseError extends Error {
   }
 }
 
-export function handleError(err: unknown, opts?: { exit?: boolean }): void {
+export function handleError(
+  err: unknown,
+  opts?: { exit?: boolean }
+): never | void {
   const { exit = true } = opts || {};
   let message = "";
   let code = 1;
 
   if (err instanceof BaseError) {
-    message = err.message || "Error";
+    message = err.message || "Something went wrong";
     code = err.exitCode || 1;
   } else if (err instanceof Error) {
     message = err.message || err.toString();
@@ -31,7 +34,9 @@ export function handleError(err: unknown, opts?: { exit?: boolean }): void {
 
   console.error(`Error: ${message}`);
 
-  if (exit) process.exit(code);
+  if (exit) {
+    process.exit(code);
+  }
 }
 
 export function fatal(message: string, exitCode = 1): never {
